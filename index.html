@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sudhanshu Suryavanshi — Video Engineering & OTT Headend</title>
+<meta name="description" content="Portfolio of Sudhanshu Suryavanshi — Video Headend Engineer at Jio Platforms. OTT, Cloud, Live Streaming, Broadcast." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-0:#05060a;
+    --bg-1:#0a0d14;
+    --bg-2:#10131c;
+    --line:rgba(255,255,255,.08);
+    --text:#e8ecf3;
+    --muted:#8a91a3;
+    --brand-1:#6366f1;
+    --brand-2:#22d3ee;
+    --brand-3:#a855f7;
+    --brand-4:#f472b6;
+    --grad: linear-gradient(135deg,#6366f1 0%,#a855f7 35%,#22d3ee 70%,#f472b6 100%);
+    --glow: 0 0 40px rgba(99,102,241,.35), 0 0 80px rgba(34,211,238,.18);
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Outfit','Space Grotesk',system-ui,sans-serif;
+    background:var(--bg-0);
+    color:var(--text);
+    overflow-x:hidden;
+    line-height:1.55;
+    cursor:none;
+  }
+  body::before{
+    content:"";
+    position:fixed;inset:0;
+    background:
+      radial-gradient(800px 500px at 10% -10%, rgba(99,102,241,.18), transparent 60%),
+      radial-gradient(700px 500px at 110% 10%, rgba(34,211,238,.15), transparent 60%),
+      radial-gradient(600px 500px at 50% 110%, rgba(168,85,247,.12), transparent 60%);
+    z-index:-2;pointer-events:none;
+  }
+  body::after{
+    content:"";
+    position:fixed;inset:0;
+    background:
+      linear-gradient(transparent 95%, rgba(255,255,255,.04) 95%) 0 0/100% 28px,
+      linear-gradient(90deg, transparent 95%, rgba(255,255,255,.04) 95%) 0 0/28px 100%;
+    z-index:-1;pointer-events:none;mask-image:radial-gradient(ellipse at center, black 30%, transparent 80%);
+  }
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  ::selection{background:rgba(99,102,241,.4);color:#fff}
+
+  /* Custom Cursor */
+  .cursor-dot,.cursor-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;border-radius:50%;transform:translate(-50%,-50%);transition:transform .15s ease,width .25s ease,height .25s ease,background .25s ease}
+  .cursor-dot{width:6px;height:6px;background:#22d3ee;mix-blend-mode:difference}
+  .cursor-ring{width:34px;height:34px;border:1.5px solid rgba(255,255,255,.6);transition:transform .12s linear,width .25s ease,height .25s ease,border-color .25s ease,background .25s ease}
+  .cursor-ring.hover{width:64px;height:64px;border-color:transparent;background:rgba(99,102,241,.18);backdrop-filter:blur(2px)}
+  @media (max-width:900px){body{cursor:auto}.cursor-dot,.cursor-ring{display:none}}
+
+  /* Loader */
+  .loader{position:fixed;inset:0;background:#05060a;z-index:99999;display:grid;place-items:center;transition:opacity .8s ease,visibility .8s ease}
+  .loader.done{opacity:0;visibility:hidden}
+  .loader-inner{display:flex;flex-direction:column;align-items:center;gap:24px}
+  .loader-logo{font-family:'Outfit';font-weight:800;font-size:42px;letter-spacing:-1px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;animation:pulseLogo 1.6s ease-in-out infinite}
+  @keyframes pulseLogo{0%,100%{filter:drop-shadow(0 0 0 rgba(99,102,241,0))}50%{filter:drop-shadow(0 0 18px rgba(99,102,241,.6))}}
+  .loader-bar{width:220px;height:2px;background:rgba(255,255,255,.08);overflow:hidden;border-radius:2px}
+  .loader-bar::after{content:"";display:block;width:40%;height:100%;background:var(--grad);animation:slideBar 1.2s cubic-bezier(.4,0,.2,1) infinite}
+  @keyframes slideBar{0%{transform:translateX(-100%)}100%{transform:translateX(350%)}}
+
+  /* Particle canvas */
+  #particles{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.7}
+
+  /* Navigation */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px 48px;
+    backdrop-filter:blur(18px);
+    background:rgba(5,6,10,.55);
+    border-bottom:1px solid transparent;
+    transition:padding .3s ease,border-color .3s ease,background .3s ease;
+  }
+  nav.scrolled{padding:12px 48px;border-bottom-color:var(--line);background:rgba(5,6,10,.85)}
+  .logo{font-weight:800;font-size:20px;letter-spacing:-.5px;display:flex;align-items:center;gap:10px}
+  .logo-mark{width:36px;height:36px;border-radius:10px;background:var(--grad);display:grid;place-items:center;color:#fff;font-weight:800;box-shadow:var(--glow);animation:floatLogo 4s ease-in-out infinite}
+  @keyframes floatLogo{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-3px) rotate(3deg)}}
+  .nav-links{display:flex;gap:6px;align-items:center}
+  .nav-links a{position:relative;padding:10px 16px;font-size:14px;color:var(--muted);font-weight:500;border-radius:8px;transition:color .25s ease,background .25s ease}
+  .nav-links a:hover{color:var(--text);background:rgba(255,255,255,.04)}
+  .nav-links a::after{content:"";position:absolute;left:50%;bottom:4px;width:0;height:2px;background:var(--grad);transition:width .3s ease,left .3s ease;border-radius:2px}
+  .nav-links a:hover::after{width:50%;left:25%}
+  .nav-cta{padding:10px 20px;background:var(--grad);background-size:200% 200%;color:#fff !important;font-weight:600;border-radius:10px;font-size:13px;animation:gradMove 6s ease infinite;box-shadow:0 6px 24px rgba(99,102,241,.35)}
+  .nav-cta:hover{background:var(--grad) !important;transform:translateY(-2px)}
+  @keyframes gradMove{0%,100%{background-position:0 50%}50%{background-position:100% 50%}}
+  @media (max-width:780px){nav{padding:14px 20px}nav.scrolled{padding:10px 20px}.nav-links a:not(.nav-cta){display:none}}
+
+  /* Sections */
+  section{position:relative;padding:120px 48px;max-width:1280px;margin:0 auto}
+  @media (max-width:780px){section{padding:90px 22px}}
+  .section-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;font-size:12px;font-family:'JetBrains Mono';color:var(--brand-2);background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.2);border-radius:50px;margin-bottom:18px}
+  .section-tag::before{content:"";width:6px;height:6px;background:var(--brand-2);border-radius:50%;box-shadow:0 0 8px var(--brand-2);animation:blink 1.4s ease-in-out infinite}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+  .section-title{font-size:clamp(36px,5vw,64px);font-weight:800;letter-spacing:-2px;line-height:1.05;margin-bottom:18px}
+  .section-title span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .section-subtitle{color:var(--muted);font-size:17px;max-width:640px;margin-bottom:60px}
+
+  /* HERO */
+  .hero{min-height:100vh;display:flex;align-items:center;padding-top:140px;padding-bottom:80px}
+  .hero-grid{display:grid;grid-template-columns:1.3fr .9fr;gap:60px;align-items:center;width:100%}
+  @media (max-width:980px){.hero-grid{grid-template-columns:1fr;gap:50px}}
+  .hero-eyebrow{display:inline-flex;align-items:center;gap:10px;padding:8px 16px;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:50px;font-size:13px;color:var(--muted);margin-bottom:24px;font-family:'JetBrains Mono';animation:fadeUp .9s .1s both}
+  .hero-eyebrow .dot{width:8px;height:8px;background:#10b981;border-radius:50%;box-shadow:0 0 10px #10b981;animation:blink 1.6s ease-in-out infinite}
+  .hero h1{font-size:clamp(46px,7vw,92px);font-weight:800;letter-spacing:-3px;line-height:.98;margin-bottom:20px;animation:fadeUp 1s .2s both}
+  .hero h1 .grad{background:var(--grad);background-size:200% 200%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:gradMove 8s ease infinite}
+  .hero h1 .stroke{-webkit-text-stroke:1.5px rgba(255,255,255,.85);color:transparent}
+  .hero-typed{font-size:clamp(18px,2vw,24px);font-family:'JetBrains Mono';color:var(--brand-2);margin-bottom:20px;min-height:32px;animation:fadeUp 1s .35s both}
+  .hero-typed::after{content:"|";color:var(--brand-2);animation:caret 1s steps(1) infinite;margin-left:2px}
+  @keyframes caret{50%{opacity:0}}
+  .hero-desc{color:var(--muted);font-size:18px;max-width:560px;margin-bottom:36px;animation:fadeUp 1s .5s both}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap;animation:fadeUp 1s .65s both}
+  .btn{position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:10px;padding:15px 28px;font-size:15px;font-weight:600;border-radius:12px;cursor:none;border:none;transition:transform .25s ease,box-shadow .3s ease}
+  .btn-primary{background:var(--grad);background-size:200% 200%;color:#fff;animation:gradMove 6s ease infinite;box-shadow:0 12px 32px rgba(99,102,241,.4)}
+  .btn-primary:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(99,102,241,.55)}
+  .btn-ghost{background:rgba(255,255,255,.04);color:var(--text);border:1px solid var(--line);backdrop-filter:blur(8px)}
+  .btn-ghost:hover{transform:translateY(-3px);background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2)}
+  .btn .arrow{transition:transform .25s ease}
+  .btn:hover .arrow{transform:translateX(5px)}
+  .hero-stats{display:flex;gap:32px;margin-top:50px;flex-wrap:wrap;animation:fadeUp 1s .8s both}
+  .hero-stat .num{font-size:32px;font-weight:800;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:-1px}
+  .hero-stat .lbl{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;font-family:'JetBrains Mono'}
+
+  /* Hero visual */
+  .hero-visual{position:relative;height:520px;animation:fadeIn 1.2s .4s both}
+  .orb{position:absolute;border-radius:50%;filter:blur(60px);opacity:.5}
+  .orb-1{width:280px;height:280px;background:#6366f1;top:0;right:30px;animation:floatOrb 8s ease-in-out infinite}
+  .orb-2{width:220px;height:220px;background:#22d3ee;bottom:60px;left:0;animation:floatOrb 10s ease-in-out infinite reverse}
+  .orb-3{width:180px;height:180px;background:#a855f7;top:50%;right:10%;animation:floatOrb 7s ease-in-out infinite}
+  @keyframes floatOrb{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(20px,-30px) scale(1.05)}66%{transform:translate(-15px,20px) scale(.95)}}
+  .avatar-wrap{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:340px;height:340px;display:grid;place-items:center}
+  .avatar-rotor{position:absolute;inset:-20px;border-radius:50%;border:1.5px dashed rgba(255,255,255,.2);animation:rotate 24s linear infinite}
+  .avatar-rotor::before,.avatar-rotor::after{content:"";position:absolute;width:14px;height:14px;border-radius:50%;background:var(--grad);box-shadow:0 0 20px rgba(99,102,241,.7)}
+  .avatar-rotor::before{top:-7px;left:50%;transform:translateX(-50%)}
+  .avatar-rotor::after{bottom:-7px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#22d3ee,#f472b6)}
+  .avatar-rotor-2{position:absolute;inset:-50px;border-radius:50%;border:1px dashed rgba(255,255,255,.1);animation:rotate 38s linear infinite reverse}
+  .avatar-rotor-2::before{content:"";position:absolute;width:10px;height:10px;border-radius:50%;background:#22d3ee;top:50%;right:-5px;transform:translateY(-50%);box-shadow:0 0 18px #22d3ee}
+  @keyframes rotate{to{transform:rotate(360deg)}}
+  .avatar{width:280px;height:280px;border-radius:50%;background:var(--grad);padding:4px;position:relative;box-shadow:var(--glow);animation:floatAvatar 6s ease-in-out infinite}
+  @keyframes floatAvatar{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+  .avatar-inner{width:100%;height:100%;border-radius:50%;background:#0a0d14;display:grid;place-items:center;font-family:'Outfit';font-weight:800;font-size:96px;letter-spacing:-3px;background-image:linear-gradient(135deg,#0a0d14,#10131c);position:relative;overflow:hidden}
+  .avatar-inner span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;position:relative;z-index:1}
+  .avatar-inner img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%;z-index:2;filter:saturate(1.05) contrast(1.03)}
+  .avatar-inner img.loaded ~ span{display:none}
+  .avatar-inner::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.12),transparent 50%);z-index:3;pointer-events:none}
+  .avatar-inner::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,rgba(99,102,241,.18) 100%);z-index:3;pointer-events:none;border-radius:50%}
+  .badge-floating{position:absolute;background:rgba(15,18,28,.85);backdrop-filter:blur(12px);border:1px solid var(--line);padding:10px 14px;border-radius:14px;font-size:12px;display:flex;align-items:center;gap:8px;font-family:'JetBrains Mono';box-shadow:0 8px 24px rgba(0,0,0,.4)}
+  .badge-floating .ic{width:20px;height:20px;border-radius:6px;display:grid;place-items:center;font-size:11px}
+  .badge-1{top:30px;left:-10px;animation:floatBadge 5s ease-in-out infinite}
+  .badge-1 .ic{background:rgba(99,102,241,.2);color:#818cf8}
+  .badge-2{top:110px;right:-20px;animation:floatBadge 6s ease-in-out infinite .8s}
+  .badge-2 .ic{background:rgba(34,211,238,.2);color:#22d3ee}
+  .badge-3{bottom:80px;left:0;animation:floatBadge 7s ease-in-out infinite 1.6s}
+  .badge-3 .ic{background:rgba(168,85,247,.2);color:#c084fc}
+  .badge-4{bottom:30px;right:30px;animation:floatBadge 5.5s ease-in-out infinite .4s}
+  .badge-4 .ic{background:rgba(244,114,182,.2);color:#f472b6}
+  @keyframes floatBadge{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  .scroll-hint{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);font-size:11px;font-family:'JetBrains Mono';color:var(--muted);letter-spacing:2px;display:flex;flex-direction:column;align-items:center;gap:10px;animation:fadeIn 1s 1.5s both}
+  .scroll-hint .line{width:1px;height:40px;background:linear-gradient(to bottom,var(--brand-2),transparent);animation:scrollLine 2s ease-in-out infinite}
+  @keyframes scrollLine{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+  /* About */
+  .about-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:60px;align-items:center}
+  @media (max-width:900px){.about-grid{grid-template-columns:1fr}}
+  .about-card{position:relative;padding:32px;background:linear-gradient(145deg,rgba(255,255,255,.03),rgba(255,255,255,.01));border:1px solid var(--line);border-radius:24px;overflow:hidden}
+  .about-card::before{content:"";position:absolute;top:-50%;right:-50%;width:200%;height:200%;background:conic-gradient(from 0deg,transparent 0%,rgba(99,102,241,.15) 25%,transparent 50%,rgba(34,211,238,.15) 75%,transparent 100%);animation:rotate 12s linear infinite;z-index:0}
+  .about-card-inner{position:relative;z-index:1;background:rgba(10,13,20,.85);border-radius:18px;padding:24px;backdrop-filter:blur(8px)}
+  .about-text p{color:var(--muted);font-size:17px;margin-bottom:18px}
+  .about-text strong{color:var(--text);font-weight:600}
+  .stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:30px}
+  .stat-item{padding:22px;background:rgba(255,255,255,.02);border:1px solid var(--line);border-radius:16px;transition:transform .3s ease,border-color .3s ease,background .3s ease}
+  .stat-item:hover{transform:translateY(-4px);border-color:rgba(99,102,241,.4);background:rgba(99,102,241,.05)}
+  .stat-num{font-size:38px;font-weight:800;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:-1.5px;line-height:1;margin-bottom:6px}
+  .stat-lbl{font-size:13px;color:var(--muted)}
+
+  /* Experience timeline */
+  .timeline{position:relative;padding-left:60px}
+  .timeline::before{content:"";position:absolute;left:18px;top:8px;bottom:8px;width:2px;background:linear-gradient(to bottom,var(--brand-1),var(--brand-2),var(--brand-3),transparent)}
+  .tl-item{position:relative;margin-bottom:50px;opacity:0;transform:translateY(40px);transition:opacity .8s ease,transform .8s ease}
+  .tl-item.in{opacity:1;transform:translateY(0)}
+  .tl-item::before{content:"";position:absolute;left:-50px;top:14px;width:18px;height:18px;background:var(--bg-0);border:2px solid var(--brand-2);border-radius:50%;box-shadow:0 0 0 4px rgba(34,211,238,.15);animation:pulseDot 2.4s ease-in-out infinite}
+  @keyframes pulseDot{0%,100%{box-shadow:0 0 0 4px rgba(34,211,238,.15)}50%{box-shadow:0 0 0 8px rgba(34,211,238,.05)}}
+  .tl-card{padding:28px 30px;background:linear-gradient(145deg,rgba(255,255,255,.03),rgba(255,255,255,.01));border:1px solid var(--line);border-radius:18px;transition:transform .3s ease,border-color .3s ease}
+  .tl-card:hover{transform:translateX(8px);border-color:rgba(99,102,241,.4)}
+  .tl-head{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;margin-bottom:14px}
+  .tl-role{font-size:21px;font-weight:700}
+  .tl-company{font-size:14px;color:var(--brand-2);font-weight:500;margin-top:2px}
+  .tl-date{font-size:12px;color:var(--muted);font-family:'JetBrains Mono';padding:6px 12px;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:50px;white-space:nowrap}
+  .tl-loc{font-size:13px;color:var(--muted);margin-bottom:12px}
+  .tl-desc{color:var(--muted);font-size:15px;line-height:1.7}
+  .tl-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+  .tl-tag{padding:5px 11px;font-size:11px;font-family:'JetBrains Mono';color:#c4cad8;background:rgba(99,102,241,.08);border:1px solid rgba(99,102,241,.2);border-radius:6px}
+
+  /* Skills */
+  .skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
+  .skill-card{padding:24px;background:linear-gradient(145deg,rgba(255,255,255,.03),rgba(255,255,255,.01));border:1px solid var(--line);border-radius:16px;transition:transform .3s ease,border-color .3s ease,box-shadow .3s ease;cursor:none;position:relative;overflow:hidden}
+  .skill-card::before{content:"";position:absolute;inset:0;background:radial-gradient(400px at var(--x,50%) var(--y,50%),rgba(99,102,241,.08),transparent 40%);opacity:0;transition:opacity .3s ease}
+  .skill-card:hover::before{opacity:1}
+  .skill-card:hover{transform:translateY(-6px);border-color:rgba(99,102,241,.4);box-shadow:0 18px 40px rgba(0,0,0,.3)}
+  .skill-icon{width:42px;height:42px;border-radius:10px;background:var(--grad);display:grid;place-items:center;font-size:18px;margin-bottom:14px;color:#fff;font-weight:700}
+  .skill-name{font-size:17px;font-weight:600;margin-bottom:6px}
+  .skill-desc{font-size:13px;color:var(--muted);margin-bottom:14px;min-height:36px}
+  .skill-bar{height:5px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;position:relative}
+  .skill-bar i{display:block;height:100%;width:0;background:var(--grad);background-size:200% 100%;border-radius:3px;animation:gradMove 3s ease infinite;transition:width 1.4s cubic-bezier(.25,1,.5,1)}
+
+  /* Education */
+  .edu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px}
+  .edu-card{position:relative;padding:28px;background:linear-gradient(145deg,rgba(255,255,255,.03),rgba(255,255,255,.01));border:1px solid var(--line);border-radius:18px;transition:transform .3s ease,border-color .3s ease;overflow:hidden}
+  .edu-card::after{content:"";position:absolute;top:0;left:0;width:100%;height:3px;background:var(--grad);transform:scaleX(0);transform-origin:left;transition:transform .4s ease}
+  .edu-card:hover{transform:translateY(-6px);border-color:rgba(34,211,238,.4)}
+  .edu-card:hover::after{transform:scaleX(1)}
+  .edu-year{font-size:12px;color:var(--brand-2);font-family:'JetBrains Mono';margin-bottom:10px}
+  .edu-degree{font-size:18px;font-weight:600;margin-bottom:6px;line-height:1.3}
+  .edu-school{font-size:14px;color:var(--muted)}
+
+  /* Certifications */
+  .certs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+  .cert-card{padding:20px;background:rgba(255,255,255,.02);border:1px solid var(--line);border-radius:14px;display:flex;gap:14px;align-items:flex-start;transition:transform .3s ease,border-color .3s ease,background .3s ease}
+  .cert-card:hover{transform:translateY(-4px);border-color:rgba(168,85,247,.4);background:rgba(168,85,247,.04)}
+  .cert-icon{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;flex-shrink:0;font-size:16px;color:#fff;font-weight:700}
+  .cert-icon.aws{background:linear-gradient(135deg,#FF9900,#FFB347)}
+  .cert-icon.iit{background:linear-gradient(135deg,#6366f1,#a855f7)}
+  .cert-icon.gcp{background:linear-gradient(135deg,#4285F4,#34A853)}
+  .cert-icon.oracle{background:linear-gradient(135deg,#F80000,#C74634)}
+  .cert-icon.misc{background:linear-gradient(135deg,#22d3ee,#0ea5e9)}
+  .cert-title{font-size:14px;font-weight:600;line-height:1.35;margin-bottom:4px}
+  .cert-issuer{font-size:12px;color:var(--muted)}
+
+  /* Contact */
+  .contact{text-align:center;padding-bottom:160px}
+  .contact-card{max-width:760px;margin:0 auto;padding:60px 40px;background:linear-gradient(145deg,rgba(99,102,241,.08),rgba(34,211,238,.04));border:1px solid var(--line);border-radius:28px;position:relative;overflow:hidden}
+  .contact-card::before{content:"";position:absolute;top:-100%;left:-100%;width:300%;height:300%;background:conic-gradient(from 0deg,transparent 0%,rgba(99,102,241,.15) 20%,transparent 40%,rgba(34,211,238,.15) 60%,transparent 80%,rgba(168,85,247,.15) 100%);animation:rotate 20s linear infinite;z-index:0}
+  .contact-inner{position:relative;z-index:1;background:rgba(10,13,20,.7);backdrop-filter:blur(12px);border-radius:22px;padding:40px}
+  .contact h2{font-size:clamp(34px,5vw,54px);font-weight:800;letter-spacing:-2px;margin-bottom:14px}
+  .contact p{color:var(--muted);font-size:17px;margin-bottom:32px;max-width:520px;margin-left:auto;margin-right:auto}
+  .contact-links{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+  /* Footer */
+  footer{border-top:1px solid var(--line);padding:36px 48px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;color:var(--muted);font-size:13px}
+  footer .heart{color:#f472b6;animation:beat 1.4s ease-in-out infinite}
+  @keyframes beat{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+
+  /* Reveal */
+  .reveal{opacity:0;transform:translateY(40px);transition:opacity .9s cubic-bezier(.25,1,.5,1),transform .9s cubic-bezier(.25,1,.5,1)}
+  .reveal.in{opacity:1;transform:translateY(0)}
+  .reveal-stagger > *{opacity:0;transform:translateY(30px);transition:opacity .8s ease,transform .8s ease}
+  .reveal-stagger.in > *{opacity:1;transform:translateY(0)}
+  .reveal-stagger.in > *:nth-child(1){transition-delay:.05s}
+  .reveal-stagger.in > *:nth-child(2){transition-delay:.12s}
+  .reveal-stagger.in > *:nth-child(3){transition-delay:.19s}
+  .reveal-stagger.in > *:nth-child(4){transition-delay:.26s}
+  .reveal-stagger.in > *:nth-child(5){transition-delay:.33s}
+  .reveal-stagger.in > *:nth-child(6){transition-delay:.4s}
+  .reveal-stagger.in > *:nth-child(7){transition-delay:.47s}
+  .reveal-stagger.in > *:nth-child(8){transition-delay:.54s}
+  .reveal-stagger.in > *:nth-child(9){transition-delay:.61s}
+  .reveal-stagger.in > *:nth-child(10){transition-delay:.68s}
+  .reveal-stagger.in > *:nth-child(11){transition-delay:.75s}
+  .reveal-stagger.in > *:nth-child(12){transition-delay:.82s}
+
+  /* Scroll bar */
+  ::-webkit-scrollbar{width:10px}
+  ::-webkit-scrollbar-track{background:#05060a}
+  ::-webkit-scrollbar-thumb{background:linear-gradient(to bottom,#6366f1,#22d3ee);border-radius:10px;border:2px solid #05060a}
+</style>
+</head>
+<body>
+
+<!-- Loader -->
+<div class="loader" id="loader">
+  <div class="loader-inner">
+    <div class="loader-logo">SUDHANSHU.</div>
+    <div class="loader-bar"></div>
+    <div style="font-family:'JetBrains Mono';font-size:11px;color:var(--muted);letter-spacing:3px">INITIALIZING PORTFOLIO</div>
+  </div>
+</div>
+
+<!-- Cursor -->
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+
+<!-- Particles -->
+<canvas id="particles"></canvas>
+
+<!-- Navigation -->
+<nav id="nav">
+  <div class="logo">
+    <div class="logo-mark">S</div>
+    <span>Sudhanshu<span style="color:var(--brand-2)">.</span></span>
+  </div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#experience">Experience</a>
+    <a href="#skills">Skills</a>
+    <a href="#education">Education</a>
+    <a href="#contact" class="nav-cta">Get in touch →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-grid">
+    <div>
+      <div class="hero-eyebrow"><span class="dot"></span> Now @ Deltatre · Powering 30+ global sports & media platforms</div>
+      <h1>
+        <span class="grad">Engineering</span><br/>
+        <span class="stroke">live video</span><br/>
+        at <span class="grad">scale.</span>
+      </h1>
+      <div class="hero-typed" id="typed"></div>
+      <p class="hero-desc">
+        I'm <strong style="color:var(--text)">Sudhanshu Suryavanshi</strong> — a Technical Operations Engineer at Deltatre, running end-to-end live and linear channel ops for clients like Real Madrid, Sky, AMC, UFC, Serie A and La Liga. I build, run, and scale OTT streaming workflows that keep millions glued to their screens during live sports, news, and entertainment.
+      </p>
+      <div class="hero-cta">
+        <a href="#experience" class="btn btn-primary">Explore my work <span class="arrow">→</span></a>
+        <a href="#contact" class="btn btn-ghost">Let's connect</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="num" data-count="1000">0</div><div class="lbl">Linear Channels</div></div>
+        <div class="hero-stat"><div class="num" data-count="50">0</div><div class="lbl">Live Events</div></div>
+        <div class="hero-stat"><div class="num" data-count="99" data-suffix=".95%">0</div><div class="lbl">Stream Uptime</div></div>
+        <div class="hero-stat"><div class="num" data-count="30" data-suffix="+">0</div><div class="lbl">Global Platforms</div></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+      <div class="avatar-wrap">
+        <div class="avatar-rotor-2"></div>
+        <div class="avatar-rotor"></div>
+        <div class="avatar">
+          <div class="avatar-inner">
+            <img src="img.png" alt="Sudhanshu Suryavanshi" onload="this.classList.add('loaded')" onerror="this.style.display='none'" />
+            <span>SS</span>
+          </div>
+        </div>
+        <div class="badge-floating badge-1"><div class="ic">▶</div> VESPER DGE</div>
+        <div class="badge-floating badge-2"><div class="ic">☁</div> AWS · GCP</div>
+        <div class="badge-floating badge-3"><div class="ic">◆</div> Real Madrid · Sky · UFC</div>
+        <div class="badge-floating badge-4"><div class="ic">⚡</div> Live Ops 24×7</div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    SCROLL
+    <div class="line"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="reveal"><span class="section-tag">About me</span></div>
+  <h2 class="section-title reveal">Bridging <span>broadcast</span> and modern <span>OTT</span>.</h2>
+  <p class="section-subtitle reveal">High-availability live and VOD streaming, cloud-based OTT architectures, and zero-tolerance for downtime.</p>
+
+  <div class="about-grid">
+    <div class="about-card reveal">
+      <div class="about-card-inner">
+        <div style="font-family:'JetBrains Mono';font-size:11px;color:var(--brand-2);letter-spacing:2px;margin-bottom:14px">// PROFILE</div>
+        <div style="font-size:22px;font-weight:700;line-height:1.3;margin-bottom:14px">Technical Operations Engineer @ Deltatre</div>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:14px;color:var(--muted)">
+          <div>📍 Navi Mumbai, Maharashtra · Hybrid</div>
+          <div>🎓 MBA — IT Project Management (Manipal)</div>
+          <div>🛠 OTT · Cloud · Live Ops · Broadcast</div>
+          <div>🌐 30+ global sports & media platforms</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-text reveal">
+      <p>OTT Streaming & Broadcast Operations professional with hands-on experience delivering high-availability live and VOD streaming at scale. Specialized in <strong>live event operations</strong>, <strong>cloud-based OTT architectures</strong>, encoding/transcoding, playout systems, and CDN delivery.</p>
+      <p>I've managed 24×7 live operations for platforms like <strong>JioHotstar, JioTV, JioTV+, Sony LIV, JioCinema, Banglalink</strong> and <strong>Zee</strong> — delivering 99.95%+ stream uptime across linear channels and supporting 50+ live events including high-traffic sports and news.</p>
+      <p>Strong bridge between broadcast engineering and modern OTT, comfortable in high-pressure live environments, and focused on reliability, scalability, and viewer experience.</p>
+      <div class="stats-grid reveal-stagger">
+        <div class="stat-item"><div class="stat-num">99.95%+</div><div class="stat-lbl">Stream uptime delivered</div></div>
+        <div class="stat-item"><div class="stat-num">~30%</div><div class="stat-lbl">Faster incident resolution</div></div>
+        <div class="stat-item"><div class="stat-num">50+</div><div class="stat-lbl">Live events supported</div></div>
+        <div class="stat-item"><div class="stat-num">1000+</div><div class="stat-lbl">Linear TV channels managed</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="reveal"><span class="section-tag">Experience</span></div>
+  <h2 class="section-title reveal">A <span>journey</span> through<br/>OTT, cloud & live broadcast.</h2>
+  <p class="section-subtitle reveal">From digital operations to architecting headend pipelines for India's largest streaming platforms.</p>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-head">
+          <div>
+            <div class="tl-role">Technical Operations Engineer</div>
+            <div class="tl-company">Deltatre Limited · Full-time</div>
+          </div>
+          <div class="tl-date">Mar 2026 — Present</div>
+        </div>
+        <div class="tl-loc">Current role</div>
+        <div class="tl-desc">
+          Supporting <strong style="color:var(--text)">30+ international sports and media client platforms</strong> using the <strong style="color:var(--text)">VESPER DGE</strong> content management ecosystem. Managing end-to-end live and linear channel operations for clients including <strong style="color:var(--text)">Real Madrid, Sky, AMC Networks, UFC, Serie A, La Liga</strong> and other global broadcasters. Responsibilities include signal acquisition through encoder cross-connects from PSSI, IMG, and Stockley Park; encoder/transcoder integration on D3 platforms; bitrate ladder configuration to client spec; MUX operations; and live transmission management for 24×7 linear and virtual linear channels. Handling real-time incident management, L2 troubleshooting, and system monitoring through Jira, Mailchimp, and Logz.io (Kibana) — ensuring service continuity during high-concurrency live events through UXQA, issue mitigation, and proactive operational support.
+        </div>
+        <div class="tl-tags">
+          <span class="tl-tag">VESPER DGE</span><span class="tl-tag">D3 Platform</span><span class="tl-tag">PSSI · IMG · Stockley Park</span><span class="tl-tag">MUX Ops</span><span class="tl-tag">Logz.io / Kibana</span><span class="tl-tag">Jira</span><span class="tl-tag">L2 Troubleshooting</span><span class="tl-tag">UXQA</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-head">
+          <div>
+            <div class="tl-role">Video Headend Engineer</div>
+            <div class="tl-company">Jio Platforms Limited (JPL) · Full-time</div>
+          </div>
+          <div class="tl-date">Oct 2025 — Mar 2026</div>
+        </div>
+        <div class="tl-loc">Navi Mumbai · Hybrid</div>
+        <div class="tl-desc">
+          Operated across the OTT Video Headend ecosystem, managing configuration and operational workflows for <strong style="color:var(--text)">1000+ linear TV channels</strong> on JioTV and JioTV+ — covering Live, VOD, HLS and DVR services. Hands-on with Broadpeak BKS350/BKS400 packagers and Ateme TITAN Live/Edge/MUX for ABR ladders, SCTE-35 pass-through, and redundancy. Implemented DRM workflows (FairPlay, Widevine), designed solution architecture across origin/packager/shield/CDN layers, and contributed to monitoring, SOPs, and incident analysis.
+        </div>
+        <div class="tl-tags">
+          <span class="tl-tag">Broadpeak</span><span class="tl-tag">Ateme TITAN</span><span class="tl-tag">FairPlay</span><span class="tl-tag">Widevine</span><span class="tl-tag">HLS / DASH</span><span class="tl-tag">SCTE-35</span><span class="tl-tag">Akamai · Jio CDN</span><span class="tl-tag">RHEL</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-head">
+          <div>
+            <div class="tl-role">Video Engineer — LiveOps</div>
+            <div class="tl-company">Skandha Media Services · Full-time</div>
+          </div>
+          <div class="tl-date">Jun 2024 — Oct 2025</div>
+        </div>
+        <div class="tl-loc">Mumbai · On-site</div>
+        <div class="tl-desc">
+          Designed end-to-end project architectures across ingestion, encoding, origin, CDN, content protection, and monitoring. Executed live streaming operations for <strong style="color:var(--text)">JioCinema, Sony LIV, Banglalink, FanCode</strong> — supporting marquee events including <strong style="color:var(--text)">CWG, Australian Open, FIFA</strong>. Built AWS-based media pipelines using EC2, S3, MediaConnect, MediaLive, MediaPackage, CloudWatch, and Akamai CDN. Led client POCs, automated series activation, and managed Hotstar CMS operations.
+        </div>
+        <div class="tl-tags">
+          <span class="tl-tag">AWS Elemental</span><span class="tl-tag">MediaLive</span><span class="tl-tag">MediaConnect</span><span class="tl-tag">MediaPackage</span><span class="tl-tag">SRT</span><span class="tl-tag">SSAI</span><span class="tl-tag">Aurora QC</span><span class="tl-tag">JIRA</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-head">
+          <div>
+            <div class="tl-role">Executive — Digital Operations</div>
+            <div class="tl-company">Skandha Media Services · Full-time</div>
+          </div>
+          <div class="tl-date">Nov 2023 — Jun 2024</div>
+        </div>
+        <div class="tl-loc">Mumbai · On-site</div>
+        <div class="tl-desc">
+          Drove live streaming playout for global sports events using IP configurations and AWS cloud services. Broadcast live across OTT platforms — Android, iOS, CTV and UHD streams — with active log monitoring and operations on stream amendments. Supported brand campaigns and traffic growth efforts across social channels.
+        </div>
+        <div class="tl-tags">
+          <span class="tl-tag">Playout</span><span class="tl-tag">IP Workflows</span><span class="tl-tag">CTV / UHD</span><span class="tl-tag">Cloud Streaming</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="reveal"><span class="section-tag">Skills & expertise</span></div>
+  <h2 class="section-title reveal">A <span>full-stack</span> broadcast<br/>& OTT toolkit.</h2>
+  <p class="section-subtitle reveal">From bare-metal headends to global cloud delivery — here's where I operate.</p>
+
+  <div class="skills-grid reveal-stagger">
+    <div class="skill-card"><div class="skill-icon">▶</div><div class="skill-name">OTT Headend & Packaging</div><div class="skill-desc">Broadpeak BKS350/400, Ateme TITAN Live/Edge/MUX</div><div class="skill-bar"><i data-w="95"></i></div></div>
+    <div class="skill-card"><div class="skill-icon">☁</div><div class="skill-name">AWS Media Services</div><div class="skill-desc">MediaLive · MediaPackage · MediaConnect · CloudWatch</div><div class="skill-bar"><i data-w="92"></i></div></div>
+    <div class="skill-card"><div class="skill-icon">◆</div><div class="skill-name">Streaming Protocols</div><div class="skill-desc">HLS · DASH · SRT · ABR ladders · DVR</div><div class="skill-bar"><i data-w="93"></i></div></div>
+    <div class="skill-card"><div class="skill-icon">🔒</div><div class="skill-name">DRM & Content Protection</div><div class="skill-desc">FairPlay · Widevine · CPix · Key/Cipher servers</div><div class="skill-bar"><i data-w="88"></i></div></div>
+    <div class="skill-card"><div class="skill-icon">⚡</div><div class="skill-name">Live Event Operations</div><div class="skill-desc">24×7 LiveOps · CWG · Aus Open · FIFA</div><div class="skill-bar"><i data-w="96"></i></div></div>
+    <div class="skill-card"><div class="skill-icon">🌐</div><div class="skill-name">CDN & Delivery</div><div class="skill-desc">Akamai · Broadpeak CDN · Jio CDN · Cache layers</div><div class="skill-bar"><i data-w="90"></i></div></div>
+    <div class="skill-card"><div class="skill-icon">⚙</div><div class="skill-name">Linux / RHEL Admin</div><div class="skill-desc">Server install · Logs · Service monitoring</div><div class="skill-bar"><i data-w="85"></i></div></div>
+    <div class="skill-card"><div class="skill-icon">📡</div><div class="skill-name">SCTE-35 & SSAI</div><div class="skill-desc">Ad markers · Server-side ad insertion</div><div class="skill-bar"><i data-w="87"></i></div></div>
+    <div class="skill-card"><div class="skill-icon">🛠</div><div class="skill-name">Encoding / Transcoding</div><div class="skill-desc">H.264 · H.265 · ABR profiles · PID manipulation</div><div class="skill-bar"><i data-w="90"></i></div></div>
+    <div class="skill-card"><div class="skill-icon">🎚</div><div class="skill-name">Playout Automation</div><div class="skill-desc">Channel scheduling · Dynamic event workflows</div><div class="skill-bar"><i data-w="86"></i></div></div>
+    <div class="skill-card"><div class="skill-icon">🧭</div><div class="skill-name">Monitoring & Incident</div><div class="skill-desc">JIRA · SOPs · Root-cause · Alerting</div><div class="skill-bar"><i data-w="89"></i></div></div>
+    <div class="skill-card"><div class="skill-icon">☁</div><div class="skill-name">GCP & OCI</div><div class="skill-desc">Multi-cloud media pipelines · Foundations cert.</div><div class="skill-bar"><i data-w="78"></i></div></div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="reveal"><span class="section-tag">Education</span></div>
+  <h2 class="section-title reveal">Built on a <span>strong</span> academic core.</h2>
+  <p class="section-subtitle reveal">From engineering fundamentals to business strategy — a continuous loop of learning.</p>
+
+  <div class="edu-grid reveal-stagger">
+    <div class="edu-card">
+      <div class="edu-year">JUL 2025 — JUL 2027</div>
+      <div class="edu-degree">Master of Business Administration</div>
+      <div class="edu-school">Manipal University Jaipur<br/><span style="font-size:12px">IT Project Management</span></div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-year">2019 — 2023</div>
+      <div class="edu-degree">B.E. — IT & Electronics & Telecom</div>
+      <div class="edu-school">A. P. Shah Institute of Technology, Thane</div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-year">AUG 2017 — FEB 2019</div>
+      <div class="edu-degree">Senior Secondary — Science</div>
+      <div class="edu-school">Ramnarain Ruia College, Mumbai</div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-year">JUN 2007 — MAR 2017</div>
+      <div class="edu-degree">Junior Secondary · 88.60%</div>
+      <div class="edu-school">St. Francis Xaviers High School<br/><span style="font-size:12px">Football · Painting · Cricket</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certs">
+  <div class="reveal"><span class="section-tag">Licenses & Certifications</span></div>
+  <h2 class="section-title reveal">Always <span>upskilling.</span></h2>
+  <p class="section-subtitle reveal">A growing collection of cloud, media, and leadership credentials.</p>
+
+  <div class="certs-grid reveal-stagger">
+    <div class="cert-card"><div class="cert-icon iit">IIT</div><div><div class="cert-title">NextGen Business Mastery</div><div class="cert-issuer">IIT Madras · Sep 2025</div></div></div>
+    <div class="cert-card"><div class="cert-icon aws">AWS</div><div><div class="cert-title">Media-Entertainment-DTC-Broadcast Foundations</div><div class="cert-issuer">Amazon Web Services · Nov 2024</div></div></div>
+    <div class="cert-card"><div class="cert-icon aws">AWS</div><div><div class="cert-title">Video Streaming Concepts: AWS Media Services</div><div class="cert-issuer">Amazon Web Services · Nov 2024</div></div></div>
+    <div class="cert-card"><div class="cert-icon aws">AWS</div><div><div class="cert-title">AWS Academy ML Foundations</div><div class="cert-issuer">Amazon Web Services · Jun 2024</div></div></div>
+    <div class="cert-card"><div class="cert-icon aws">AWS</div><div><div class="cert-title">AWS Educate — Intro to Cloud 101</div><div class="cert-issuer">Amazon Web Services · May 2025</div></div></div>
+    <div class="cert-card"><div class="cert-icon aws">AWS</div><div><div class="cert-title">AWS Cloud Computing Foundations</div><div class="cert-issuer">Amazon Web Services · Jan 2022</div></div></div>
+    <div class="cert-card"><div class="cert-icon oracle">OCI</div><div><div class="cert-title">Oracle Cloud Infrastructure 2025 Foundations</div><div class="cert-issuer">Oracle · Jul 2025</div></div></div>
+    <div class="cert-card"><div class="cert-icon gcp">G</div><div><div class="cert-title">Google Agile Essentials</div><div class="cert-issuer">Coursera · Aug 2025</div></div></div>
+    <div class="cert-card"><div class="cert-icon misc">AI</div><div><div class="cert-title">AI &amp; ML Virtual Internship</div><div class="cert-issuer">AICTE NEAT · Jan 2022</div></div></div>
+    <div class="cert-card"><div class="cert-icon misc">PY</div><div><div class="cert-title">Python — Data Structures &amp; Web Data</div><div class="cert-issuer">Coursera</div></div></div>
+    <div class="cert-card"><div class="cert-icon misc">BP</div><div><div class="cert-title">BluePrism Foundation Training</div><div class="cert-issuer">BluePrism Automotive</div></div></div>
+    <div class="cert-card"><div class="cert-icon misc">LD</div><div><div class="cert-title">Self Awareness &amp; Effective Leader</div><div class="cert-issuer">Coursera</div></div></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-card reveal">
+    <div class="contact-inner">
+      <div style="font-family:'JetBrains Mono';font-size:12px;color:var(--brand-2);letter-spacing:3px;margin-bottom:18px">// LET'S BUILD SOMETHING</div>
+      <h2>Got a project, role, or<br/>idea worth streaming?</h2>
+      <p>Whether it's an OTT launch, a live event you want covered with confidence, or just a chat about broadcast and cloud — my inbox is open.</p>
+      <div class="contact-links">
+        <a href="https://www.linkedin.com/in/sudhanshu-suryavanshi-27731b22b/" target="_blank" rel="noopener" class="btn btn-primary">Connect on LinkedIn <span class="arrow">→</span></a>
+        <a href="mailto:contact@example.com" class="btn btn-ghost">✉ Send an email</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div>© 2026 Sudhanshu Suryavanshi · Crafted with <span class="heart">♥</span> &amp; lots of stream uptime</div>
+  <div style="font-family:'JetBrains Mono';font-size:11px">v1.0 · last build: 2026.04.25</div>
+</footer>
+
+<script>
+/* ---------- Loader ---------- */
+window.addEventListener('load',()=>{
+  setTimeout(()=>document.getElementById('loader').classList.add('done'),900);
+});
+
+/* ---------- Custom cursor ---------- */
+const dot=document.getElementById('cursorDot'),ring=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+window.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.transform=`translate(${mx}px,${my}px) translate(-50%,-50%)`});
+function lerp(){rx+=(mx-rx)*.15;ry+=(my-ry)*.15;ring.style.transform=`translate(${rx}px,${ry}px) translate(-50%,-50%)`;requestAnimationFrame(lerp)}lerp();
+document.querySelectorAll('a,button,.btn,.skill-card,.tl-card,.edu-card,.cert-card,.stat-item').forEach(el=>{
+  el.addEventListener('mouseenter',()=>ring.classList.add('hover'));
+  el.addEventListener('mouseleave',()=>ring.classList.remove('hover'));
+});
+
+/* ---------- Nav scroll ---------- */
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>30)});
+
+/* ---------- Typed text ---------- */
+const phrases=['Video Headend Engineer @ JPL','OTT · Cloud · Live Operations','Building 24×7 streaming reliability','HLS · DASH · DRM · CDN'];
+const typedEl=document.getElementById('typed');
+let pi=0,ci=0,deleting=false;
+function tick(){
+  const p=phrases[pi];
+  typedEl.textContent=p.substring(0,ci);
+  if(!deleting){ci++;if(ci>p.length){deleting=true;setTimeout(tick,1600);return}}
+  else{ci--;if(ci===0){deleting=false;pi=(pi+1)%phrases.length}}
+  setTimeout(tick,deleting?40:80);
+}tick();
+
+/* ---------- Counter ---------- */
+function animateCounter(el){
+  const target=+el.dataset.count;const suffix=el.dataset.suffix||'+';let cur=0;
+  const dur=1500;const step=target/(dur/16);
+  const upd=()=>{cur+=step;if(cur>=target){el.textContent=target+suffix;return}el.textContent=Math.floor(cur)+suffix;requestAnimationFrame(upd)};upd();
+}
+
+/* ---------- Reveal observer ---------- */
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('in');
+      // counters
+      e.target.querySelectorAll&&e.target.querySelectorAll('[data-count]').forEach(c=>{if(!c.dataset.done){c.dataset.done='1';animateCounter(c)}});
+      // skill bars
+      e.target.querySelectorAll&&e.target.querySelectorAll('.skill-bar i').forEach(b=>{b.style.width=b.dataset.w+'%'});
+      io.unobserve(e.target);
+    }
+  });
+},{threshold:.15});
+
+document.querySelectorAll('.reveal,.reveal-stagger,.tl-item,.hero-stats').forEach(el=>io.observe(el));
+
+/* ---------- Skill card mouse glow ---------- */
+document.querySelectorAll('.skill-card').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    card.style.setProperty('--x',(e.clientX-r.left)+'px');
+    card.style.setProperty('--y',(e.clientY-r.top)+'px');
+  });
+});
+
+/* ---------- Particles ---------- */
+const c=document.getElementById('particles'),ctx=c.getContext('2d');
+let W,H,parts=[];
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight}
+resize();window.addEventListener('resize',resize);
+function makeParts(){
+  parts=[];
+  const n=Math.min(80,Math.floor(W/20));
+  for(let i=0;i<n;i++)parts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*1.5+.5});
+}
+makeParts();window.addEventListener('resize',makeParts);
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  for(let i=0;i<parts.length;i++){
+    const p=parts[i];p.x+=p.vx;p.y+=p.vy;
+    if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;
+    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(180,200,255,.5)';ctx.fill();
+    for(let j=i+1;j<parts.length;j++){
+      const q=parts[j];const dx=p.x-q.x,dy=p.y-q.y,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<120){ctx.strokeStyle=`rgba(99,102,241,${(1-d/120)*.25})`;ctx.lineWidth=.6;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke()}
+    }
+  }
+  requestAnimationFrame(draw);
+}draw();
+
+/* ---------- Parallax orbs ---------- */
+window.addEventListener('mousemove',e=>{
+  const x=(e.clientX/innerWidth-.5)*20;
+  const y=(e.clientY/innerHeight-.5)*20;
+  document.querySelectorAll('.orb').forEach((o,i)=>{
+    const f=(i+1)*.4;o.style.transform=`translate(${x*f}px,${y*f}px)`;
+  });
+});
+</script>
+
+</body>
+</html>
